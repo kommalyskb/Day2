@@ -1,0 +1,41 @@
+﻿
+
+<p>Title: @Movie.Title</p>
+<p>Release Date: @Movie.ReleaseDate.ToString("dd MMM yyyy")</p>
+@if (OnDisplay)
+{
+    <p>
+        <img src="@Movie.Poster" alt="Poster" style="width:200px" />
+    </p>
+}
+
+<div>
+    <button type="button" class="btn btn-primary" @onclick="@(() => DeleteMovie.InvokeAsync(Movie))">Delete</button>
+</div>
+
+<div>
+    Comment:
+</div>
+<div>
+    @FirstFragment
+</div>
+<div>
+    @SecondFragment
+</div>
+
+@code {
+    // Data
+    [Parameter] public Movie Movie { get; set; }
+    [Parameter] public bool OnDisplay { get; set; }
+
+    // Event Callback
+    [Parameter] public EventCallback<Movie> DeleteMovie { get; set; }
+
+    // Content
+    [Parameter] public RenderFragment FirstFragment { get; set; }
+    [Parameter] public RenderFragment SecondFragment { get; set; }
+
+    // Attribute
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalParam { get; set; }
+}

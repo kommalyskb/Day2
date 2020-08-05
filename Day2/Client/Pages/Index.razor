@@ -1,0 +1,56 @@
+﻿@page "/"
+@inject ServiceSimple singleton
+
+<p>Singleton count: @singleton.GetCount()</p>
+<div>
+    <label>Hide Poster</label>
+    <input type="checkbox" @bind="displayPoster" />
+</div>
+<IndividualMovie Movie="movie" DeleteMovie="DeleteMe" OnDisplay="displayPoster">
+    <FirstFragment>
+        <span style="color:red">I love this Cinema</span>
+    </FirstFragment>
+    <SecondFragment>
+        <span style="color:blue">Me too</span>
+    </SecondFragment>
+</IndividualMovie>
+
+@code{
+
+    Movie movie;
+    bool displayPoster = true;
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("On Init");
+        //await Task.Delay(1500);
+        movie = new Movie()
+        {
+            Title = "Spider-Man: Far From Home",
+            ReleaseDate = new DateTime(2019, 7, 2),
+            Poster = "https://m.media-amazon.com/images/M/MV5BMGZlNTY1ZWUtYTMzNC00ZjUyLWE0MjQtMTMxN2E3ODYxMWVmXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_UX182_CR0,0,182,268_AL_.jpg"
+        };
+    }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("On Parametere Set");
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine($"On After render: {firstRender}");
+    }
+
+    protected override bool ShouldRender()
+    {
+        return false;
+    }
+
+    void DeleteMe(Movie item)
+    {
+        Console.WriteLine($"Delete Movie {item.Title}");
+    }
+
+
+}
